@@ -20,7 +20,7 @@ module OpenGraph
     page = OpenGraph::Object.new
     doc.css('meta').each do |m|
       if m.attribute('property') && m.attribute('property').to_s.match(/^og:(.+)$/i)
-        page[$1.gsub('-','_')] = m.attribute('content').to_s
+        page[$1.gsub('-','_').gsub(':','_')] = m.attribute('content').to_s
       end
     end
     return false if page.keys.empty?
@@ -30,13 +30,14 @@ module OpenGraph
   
   TYPES = {
     'activity' => %w(activity sport),
+    'article' => %w(article blog website),
     'business' => %w(bar company cafe hotel restaurant),
+    'gif' => %w(video.other),
     'group' => %w(cause sports_league sports_team),
     'organization' => %w(band government non_profit school university),
     'person' => %w(actor athlete author director musician politician public_figure),
     'place' => %w(city country landmark state_province),
-    'product' => %w(album book drink food game movie product song tv_show),
-    'website' => %w(blog website)
+    'product' => %w(album book drink food game movie product song tv_show)
   }
   
   # The OpenGraph::Object is a Hash with method accessors for
